@@ -12,13 +12,11 @@ def get_http_headers(http_payload):
         return None
     return headers
 
-def extract_attack(PCAP):        
+def extract(PCAP, OUT_DIR):        
 	pcap = rdpcap(PCAP)
 	
 	sessions = pcap.sessions()
-        session_count = 1
 	for session in sessions:
-                print "[+] sesion known...%d" % session_count
                 http_payload = ""
 
                 packet_num = 0
@@ -38,8 +36,36 @@ def extract_attack(PCAP):
                             #print param
                             if "Payload" in param:
                                 payload = param.replace("Payload=", "")
-                                open("out/session_%d" % packet_num , "w").write(payload)
+                                open("%s/session_%d" % (OUT_DIR, packet_num) , "w").write(payload)
                                 packet_num = packet_num+1
 
+def usage():
+    print "cmd [-o|--outdir=DIR_PATH] FILE1..."
 
-extract_attack("attack.pcap")
+if __name__ == "__main__":
+    from sys import argv, exit
+    from getopt import getopt, GetoptError
+    args = []
+    try:
+        opts, args = getopt(argv[1:], "o:h", [ 'outdir=', 'help'])
+    except GetoptError:
+        exit(1)
+
+    out_dir = "out"
+    for opt, arg in opts:
+        if opt in ('-h', '--help'):
+            usage()
+            exit(1)
+        elif opt in ('-o', '--outdir'):
+            out_dir = arg
+        else:
+            usage()
+            exit(1)
+
+    if not args:
+        usage()
+        exit(1)
+
+    for arg in args:
+        extract(arg, out_dir)
+
