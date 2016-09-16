@@ -14,10 +14,10 @@ def dump_hex(FILE):
         for line in fd:
             for ch in line:
                 if (ord(ch) >= 0x20 and ord(ch) <= 0x7e):
-                    printf(BLK)
+#                    printf(BLK)
                     printf(ch)
                 else:
-                    printf(RED)
+#                    printf(RED)
                     printf( ("%02x" % ord(ch)))
         print ""
 
