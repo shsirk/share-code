@@ -23,7 +23,7 @@ def download_file_to(src_host, src_port, dst_path):
           break
         ofd.write(data)
     client.close()
-  except ValueError:
+  except:
     print '[-]    error while downloading'
     return False
   return True
