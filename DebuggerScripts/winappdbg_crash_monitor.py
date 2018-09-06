@@ -2,6 +2,7 @@ import socket
 import sys
 import os
 import hashlib
+import time
 
 WINAPPDBG_PATH = r".\Frameworks\winappdbg"
 
@@ -57,7 +58,7 @@ def run_within_debugger_with_timeout(args):
     maxTime = time.time() + 15
     while debug and time.time() < maxTime:
       try:
-        debug.wait(1000)  # 1 second accuracy
+        debug.wait(1000)
       except WindowsError, e:
         if e.winerror in (win32.ERROR_SEM_TIMEOUT,
                               win32.WAIT_TIMEOUT):
