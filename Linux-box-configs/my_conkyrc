@@ -87,6 +87,8 @@ $hr
 ${color green}
 COPY: rsync -avz hacksysfuzz root@172.16.233.132:/cloudfuzz
 LAST: cat ~/.zsh_history | awk -F';' '{print $2}' | sort | uniq -u
+UNIQ: awk '!x[$0]++' # uniq without sorting
+
 $color
 RCMD~
 ${execi 60 cat ~/.zsh_history | awk -F';' '{print $2}' | sort | uniq -u | shuf | tail -n 30 | nl -w2 -s'. '}
